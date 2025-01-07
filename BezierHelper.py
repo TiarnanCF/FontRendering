@@ -41,6 +41,9 @@ class node:
 	def get_next(self):
 		return self.next
 
+	def get_coordinates(self):
+		return [self.data[0], self.data[1]]
+
 class contour:
 	def __init__(self, x_relative, y_relative, on_curve):
 		
@@ -61,7 +64,20 @@ class contour:
 		while current_node.has_next():
 			if not(current_node.is_on_curve()):
 				current_node = current_node.get_next()
-			self.beziers.add(linear_bezier())
+				continue
+
+			next_node = current_node.get_next()
+
+			if next_node.is_on_curve():
+				self.beziers.add(linear_bezier(current_node.get_coordinates(), next_node.get_coordinates()))
+				current_node = current_node.get_next()
+				continue
+
+			if not(next_node.get_next().is_on_curve()):
+				raise Exception("Sorry, invalid data")
+
+			self.beziers.add(quadratic_bezier(current_node.get_coordinates(), next_node.get_coordinates(), next_node.get_next().get_coordinates()))
+			current_node = current_node.get_next()
 
 
 #my_bezier = linear_bezier(np.array([[0],[0]]), np.array([[2],[1]]))
