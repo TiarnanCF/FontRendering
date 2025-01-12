@@ -55,7 +55,7 @@ class node:
 		return np.array([[self.data[0]], [self.data[1]]])
 
 class contour:
-	def __init__(self, x_relative, y_relative, on_curve):
+	def __init__(self, x_relative, y_relative, on_curve, is_closed_curve = True):
 		
 		current_x = x_relative.pop(0)
 		current_y = y_relative.pop(0)
@@ -94,7 +94,12 @@ class contour:
 			previous_node = current_node
 			current_node = current_node.get_next()
 
-		#raise Exception("Sorry, invalid data")
+		if not(is_closed_curve):
+			return
+
+		if not(current_node.is_on_curve()) and not(self.first_node.is_on_curve()):
+			raise Exception("Sorry, invalid data")
+
 		if not(current_node.is_on_curve()):
 			self.beziers.append(quadratic_bezier(previous_node.get_coordinates(), current_node.get_coordinates(), self.first_node.get_coordinates()))
 		
