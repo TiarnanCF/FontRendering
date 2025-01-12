@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from ..BezierHelper import LinearBezier
-from ..BezierHelper import QuadraticBezier
-from Point import Point
+from ..BezierHelper.LinearBezier import LinearBezier
+from ..BezierHelper.QuadraticBezier import QuadraticBezier
+from .Point import Point
 
 class Contour:
 	def __init__(self, x_relative, y_relative, on_curve, is_closed_curve = True):

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from LinearBezier import LinearBezier
+from .LinearBezier import LinearBezier
 
 class QuadraticBezier:
 	def __init__(self, x0, x1, x2):
