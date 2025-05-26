@@ -4,7 +4,7 @@ import numpy as np
 
 class TestLinearBezier(unittest.TestCase):
   def setUp(self):
-    self.linear_bezier: LinearBezier = LinearBezier(np.array([[0], [0]]), np.array([[2], [1]]))
+    self.linear_bezier: LinearBezier = LinearBezier([[0], [0]], [[2], [1]])
 
   def test_module(self):
     self.assertEqual(self.linear_bezier.compute_point(0.5),np.array([1],[0.5]))
