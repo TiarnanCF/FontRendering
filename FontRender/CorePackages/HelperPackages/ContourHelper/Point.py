@@ -22,3 +22,6 @@ class Point:
 
 	def get_y(self):
 		return self.data[1]
+
+	def get_static_coordinates(x, y):
+		return np.array([[x], [y]])

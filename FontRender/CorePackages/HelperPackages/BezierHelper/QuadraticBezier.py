@@ -28,10 +28,14 @@ class QuadraticBezier:
 		plt.plot(coordinates[0],coordinates[1])
 
 	def update_x0(self, x0: list[list[int]]) -> None:
-		self.x0 = x0
+		self.x0 = np.array(x0)
+		self.bezier_0.update_x0(x0)
 
 	def update_x1(self, x1: list[list[int]]) -> None:
-		self.x1 = x1
+		self.x1 = np.array(x1)
+		self.bezier_0.update_x2(x1)
+		self.bezier_1.update_x0(x1)
 
 	def update_x2(self, x2: list[list[int]]) -> None:
-		self.x2 = x2
+		self.x2 = np.array(x2)
+		self.bezier_1.update_x2(x2)

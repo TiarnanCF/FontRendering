@@ -79,9 +79,19 @@ class Contour:
 		self.beziers.append(LinearBezier(current_node.get_coordinates(), self.first_node.get_coordinates()))
 		self.is_bezier_curves_generated = True
 
-	def modify_bezier(self, bezier_index: int, bezier_point_x0, bezier_point_x1, bezier_point_x2 = None) -> None:
+	def modify_bezier(self, bezier_index: int, bezier_point_x0, bezier_point_x2, bezier_point_x1 = None) -> None:
+		if bezier_point_x1 is not None:
+			self.beziers[bezier_index] = QuadraticBezier(bezier_point_x0, bezier_point_x1, bezier_point_x2)
+		else:
+			self.beziers[bezier_index] = LinearBezier(bezier_point_x0, bezier_point_x2)
+		
+		if bezier_index > 0 or not(self.is_closed_curve):
+			self.beziers[bezier_index - 1].update_x2(bezier_point_x0)
+
+		if bezier_index < (len(self.beziers) - 1) or self.is_closed_curve:
+			self.beziers[(bezier_index + 1)%len(self.beziers)].update_x0(bezier_point_x2)
+
 		self.is_nodes_synced_with_bezier_curves = False
-		pass #Call update bezier function
 
 	def update_nodes_based_on_bezier_curves(self) -> None:
 		pass
@@ -94,4 +104,9 @@ class Contour:
 
 if __name__ == "__main__":
 	my_contour = Contour([1,1,2,3,4,3,10,4,1],[0,-2,-7,3,2,1,3,6,6],[1,0,1,0,1,1,0,1,0])
+	my_contour.plot_contour(500)
+	
+	my_contour.modify_bezier(3, Point.get_static_coordinates(5,3), Point.get_static_coordinates(8,1))
+	my_contour.plot_contour(500)
+	my_contour.modify_bezier(3, Point.get_static_coordinates(5,3), Point.get_static_coordinates(8,1), Point.get_static_coordinates(4,2))
 	my_contour.plot_contour(500)
