@@ -14,8 +14,8 @@ class Contour:
 		current_node = Point([current_x, current_y, current_on_curve])
 
 		for x,y, b_on_curve in zip(x_relative, y_relative, on_curve):
-			x_absolute = (x)# + current_x)
-			y_absolute = (y)# + current_y)
+			x_absolute = (x + current_x)
+			y_absolute = (y + current_y)
 			current_x = x
 			current_y = y
 			current_node = Point([x_absolute, y_absolute, b_on_curve], current_node)

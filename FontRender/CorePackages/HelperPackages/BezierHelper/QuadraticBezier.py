@@ -11,6 +11,11 @@ class QuadraticBezier:
 		self.bezier_1 = LinearBezier(x1,x2)
 
 	def compute_point(self, t):
+		if type(t) in (float, int):
+			t = np.array([[t]], float)
+		elif type(t) is list:
+			t = np.array([t], float)
+
 		point_on_bezier_0 = self.bezier_0.compute_point(t)
 		point_on_bezier_1 = self.bezier_1.compute_point(t)
 		t_dimensions = t.shape
