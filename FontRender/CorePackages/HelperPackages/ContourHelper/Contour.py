@@ -6,7 +6,7 @@ from ..BezierHelper.QuadraticBezier import QuadraticBezier
 from .Point import Point
 
 class Contour:
-	def __init__(self, x, y, is_on_curve, is_closed_curve = True, is_relative_points = True):
+	def __init__(self, x: list[float], y: list[float], is_on_curve: list[bool], is_closed_curve: bool = True, is_relative_points: bool = True):
 		
 		current_x = x.pop(0)
 		current_y = y.pop(0)
@@ -18,15 +18,16 @@ class Contour:
 		self.add_points(x,y,is_on_curve)
 		self.generate_bezier_curves()
 
-	def add_point(self, x: int, y:int, is_on_curve: bool) -> None:
-		current_x = self.first_node.get_x()
-		current_y = self.first_node.get_x()
-		x_absolute = (x + self.is_relative_points * current_x)
-		y_absolute = (y + self.is_relative_points * current_y)
+	def add_point(self, x: float, y:float, is_on_curve: bool) -> None:
+		current_x: float = self.first_node.get_x()
+		current_y: float = self.first_node.get_x()
+		x_absolute: float = (x + self.is_relative_points * current_x)
+		y_absolute: float = (y + self.is_relative_points * current_y)
 
-		self.first_node = Point([x_absolute, y_absolute, is_on_curve], self.first_node)
+		self.first_node: Point = Point([x_absolute, y_absolute, is_on_curve], self.first_node)
+		self.is_bezier_curves_generated: bool = False
 
-	def add_points(self, x_list: list[int], y_list:list[int], is_on_curve_list: list[bool]) -> None:
+	def add_points(self, x_list: list[float], y_list:list[float], is_on_curve_list: list[bool]) -> None:
 		for x,y, is_on_curve in zip(x_list, y_list, is_on_curve_list):
 			self.add_point(x,y,is_on_curve)
 
@@ -57,6 +58,7 @@ class Contour:
 			current_node = current_node.get_next()
 
 		if not(self.is_closed_curve):
+			self.is_bezier_curves_generated = True
 			return
 
 		if not(current_node.is_on_curve()) and not(self.first_node.is_on_curve()):
@@ -64,12 +66,14 @@ class Contour:
 
 		if not(current_node.is_on_curve()):
 			self.beziers.append(QuadraticBezier(previous_node.get_coordinates(), current_node.get_coordinates(), self.first_node.get_coordinates()))
+			return
 		
 		if not(self.first_node.is_on_curve()):
 			self.beziers.append(QuadraticBezier(current_node.get_coordinates(), self.first_node.get_coordinates(), self.first_node.get_next().get_coordinates()))
+			return
 
-		if current_node.is_on_curve() and self.first_node.is_on_curve():
-			self.beziers.append(LinearBezier(current_node.get_coordinates(), self.first_node.get_coordinates()))
+		self.beziers.append(LinearBezier(current_node.get_coordinates(), self.first_node.get_coordinates()))
+		self.is_bezier_curves_generated = True
 
 	def plot_contour(self,t_count):
 		for bezier in self.beziers:
