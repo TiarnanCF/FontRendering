@@ -16,3 +16,9 @@ class Point:
 
 	def get_coordinates(self):
 		return np.array([[self.data[0]], [self.data[1]]])
+
+	def get_x(self):
+		return self.data[0]
+
+	def get_y(self):
+		return self.data[1]

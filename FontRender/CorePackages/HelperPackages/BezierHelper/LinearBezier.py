@@ -22,20 +22,3 @@ class LinearBezier:
 		t_values = np.array([np.linspace(0,1,t_count)])
 		coordinates = self.compute_point(t_values)
 		plt.plot(coordinates[0],coordinates[1])
-
-		
-#t_values = np.array([np.linspace(0,1,100)])
-
-#my_bezier = LinearBezier(np.array([[0],[0]]), np.array([[2],[1]]))
-
-#print(my_bezier.compute_point(t_values))
-
-#plt.plot(my_bezier.compute_point(t_values)[0],my_bezier.compute_point(t_values)[1])
-
-#my_bezier = quadratic_bezier(np.array([[0],[0]]), np.array([[2],[1]]), np.array([[1],[1]]))
-
-
-#print(my_bezier.compute_point(t_values))
-
-#plt.plot(my_bezier.compute_point(t_values)[0],my_bezier.compute_point(t_values)[1])
-#plt.show()
