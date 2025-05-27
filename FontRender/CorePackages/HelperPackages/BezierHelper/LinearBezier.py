@@ -22,3 +22,9 @@ class LinearBezier:
 		t_values = np.array([np.linspace(0,1,t_count)])
 		coordinates = self.compute_point(t_values)
 		plt.plot(coordinates[0],coordinates[1])
+
+	def update_x0(self, x0: list[list[int]]) -> None:
+		self.x0 = x0
+
+	def update_x1(self, x1: list[list[int]]) -> None:
+		self.x1 = x1

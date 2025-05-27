@@ -14,6 +14,8 @@ class Contour:
 		self.first_node = Point([current_x, current_y, current_on_curve])
 		self.is_closed_curve = is_closed_curve
 		self.is_relative_points = is_relative_points
+		self.is_bezier_curves_generated: bool = False
+		self.is_nodes_synced_with_bezier_curves: bool = True
 		
 		self.add_points(x,y,is_on_curve)
 		self.generate_bezier_curves()
@@ -66,16 +68,25 @@ class Contour:
 
 		if not(current_node.is_on_curve()):
 			self.beziers.append(QuadraticBezier(previous_node.get_coordinates(), current_node.get_coordinates(), self.first_node.get_coordinates()))
+			self.is_bezier_curves_generated = True
 			return
 		
 		if not(self.first_node.is_on_curve()):
 			self.beziers.append(QuadraticBezier(current_node.get_coordinates(), self.first_node.get_coordinates(), self.first_node.get_next().get_coordinates()))
+			self.is_bezier_curves_generated = True
 			return
 
 		self.beziers.append(LinearBezier(current_node.get_coordinates(), self.first_node.get_coordinates()))
 		self.is_bezier_curves_generated = True
 
-	def plot_contour(self,t_count):
+	def modify_bezier(self, bezier_index: int, bezier_point_x0, bezier_point_x1, bezier_point_x2 = None) -> None:
+		self.is_nodes_synced_with_bezier_curves = False
+		pass #Call update bezier function
+
+	def update_nodes_based_on_bezier_curves(self) -> None:
+		pass
+
+	def plot_contour(self,t_count: int) -> None:
 		for bezier in self.beziers:
 			bezier.plot(t_count)
 		plt.show()
