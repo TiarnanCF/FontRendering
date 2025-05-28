@@ -1,12 +1,16 @@
 import unittest
 from FontRender.CorePackages.HelperPackages.BezierHelper.LinearBezier import LinearBezier
+from FontRender.CorePackages.HelperPackages.BezierHelper.Point import Point
 import numpy as np
 
 class TestLinearBezier(unittest.TestCase):
   tolerance = 0.000000001
 
   def setUp(self):
-    self.linear_bezier: LinearBezier = LinearBezier([[0], [0]], [[2], [1]])
+    self.point_x = Point(0,0,True)
+    self.point_y = Point(2,1,True)
+    self.linear_bezier: LinearBezier = LinearBezier(self.point_x, self.point_y)
+    self.new_point = Point(1.2,0.6, True)
 
   def test_compute_point_single_point(self):
     expected_point = np.array([[1.2],[0.6]])
@@ -33,16 +37,14 @@ class TestLinearBezier(unittest.TestCase):
     self.assertRaises(IndexError, self.linear_bezier.compute_point, [0.2, 1.1, 0.3])
 
   def test_update_x0(self):
-    new_point = np.array([[1.2],[0.6]])
-    self.check_points_not_equal(self.linear_bezier.x0, new_point)
-    self.linear_bezier.update_x0(new_point)
-    self.check_points_equal(self.linear_bezier.x0, new_point)
+    self.check_points_not_equal(self.linear_bezier.x0, self.new_point)
+    self.linear_bezier.update_x0(self.new_point.x, self.new_point.y)
+    self.check_points_equal(self.linear_bezier.x0, self.new_point)
 
   def test_update_x2(self):
-    new_point = np.array([[1.2],[0.6]])
-    self.check_points_not_equal(self.linear_bezier.x2, new_point)
-    self.linear_bezier.update_x2(new_point)
-    self.check_points_equal(self.linear_bezier.x2, new_point)
+    self.check_points_not_equal(self.linear_bezier.x2, self.new_point)
+    self.linear_bezier.update_x2(self.new_point.x, self.new_point.y)
+    self.check_points_equal(self.linear_bezier.x2, self.new_point)
 
   def check_points_dimensions(self, point, expected_point):
     m, n = np.shape(point)

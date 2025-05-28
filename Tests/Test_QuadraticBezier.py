@@ -1,12 +1,17 @@
 import unittest
 from FontRender.CorePackages.HelperPackages.BezierHelper.QuadraticBezier import QuadraticBezier
+from FontRender.CorePackages.HelperPackages.BezierHelper.Point import Point
 import numpy as np
 
 class TestQuadraticBezier(unittest.TestCase):
   tolerance = 0.000000001
 
   def setUp(self):
-    self.quadratic_bezier: QuadraticBezier = QuadraticBezier([[0], [0]], [[2], [1]], [[3], [-1]])
+    self.x0 = Point(0,0,True)
+    self.x1 = Point(2,1,False)
+    self.x2 = Point(3,-1,False)
+    self.quadratic_bezier: QuadraticBezier = QuadraticBezier(self.x0, self.x1, self.x2)
+    self.new_point = Point(1.2,0.6, True)
 
   def test_compute_point_single_point(self):
     expected_point = np.array([[2.04],[0.12]])
@@ -33,24 +38,21 @@ class TestQuadraticBezier(unittest.TestCase):
     self.assertRaises(IndexError, self.quadratic_bezier.compute_point, [0.2, 1.1, 0.3])
 
   def test_update_x0(self):
-    new_point = np.array([[1.2],[0.6]])
-    self.check_points_not_equal(self.quadratic_bezier.bezier_0.x0, new_point)
-    self.quadratic_bezier.update_x0(new_point)
-    self.check_points_equal(self.quadratic_bezier.bezier_0.x0, new_point)
+    self.check_points_not_equal(self.quadratic_bezier.bezier_0.x0, self.new_point)
+    self.quadratic_bezier.update_x0(self.new_point.x, self.new_point.y)
+    self.check_points_equal(self.quadratic_bezier.bezier_0.x0, self.new_point)
 
   def test_update_x1(self):
-    new_point = np.array([[1.2],[0.6]])
-    self.check_points_not_equal(self.quadratic_bezier.bezier_0.x2, new_point)
-    self.check_points_not_equal(self.quadratic_bezier.bezier_1.x0, new_point)
-    self.quadratic_bezier.update_x1(new_point)
-    self.check_points_equal(self.quadratic_bezier.bezier_0.x2, new_point)
-    self.check_points_equal(self.quadratic_bezier.bezier_1.x0, new_point)
+    self.check_points_not_equal(self.quadratic_bezier.bezier_0.x2, self.new_point)
+    self.check_points_not_equal(self.quadratic_bezier.bezier_1.x0, self.new_point)
+    self.quadratic_bezier.update_x1(self.new_point.x, self.new_point.y)
+    self.check_points_equal(self.quadratic_bezier.bezier_0.x2, self.new_point)
+    self.check_points_equal(self.quadratic_bezier.bezier_1.x0, self.new_point)
 
   def test_update_x2(self):
-    new_point = np.array([[1.2],[0.6]])
-    self.check_points_not_equal(self.quadratic_bezier.bezier_1.x2, new_point)
-    self.quadratic_bezier.update_x2(new_point)
-    self.check_points_equal(self.quadratic_bezier.bezier_1.x2, new_point)
+    self.check_points_not_equal(self.quadratic_bezier.bezier_1.x2, self.new_point)
+    self.quadratic_bezier.update_x2(self.new_point.x, self.new_point.y)
+    self.check_points_equal(self.quadratic_bezier.bezier_1.x2, self.new_point)
 
   def check_points_dimensions(self, point, expected_point):
     m, n = np.shape(point)

@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from .LinearBezier import LinearBezier
+from .Point import Point
 
 class QuadraticBezier:
-	def __init__(self, x0, x1, x2):
+	def __init__(self, x0: Point, x1: Point, x2: Point):
 		self.bezier_0 = LinearBezier(x0,x1)
 		self.bezier_1 = LinearBezier(x1,x2)
 
@@ -27,12 +28,11 @@ class QuadraticBezier:
 		coordinates = self.compute_point(t_values)
 		plt.plot(coordinates[0],coordinates[1])
 
-	def update_x0(self, x0: list[list[int]]) -> None:
-		self.bezier_0.update_x0(x0)
+	def update_x0(self, x:float, y:float) -> None:
+		self.bezier_0.update_x0(x,y)
 
-	def update_x1(self, x1: list[list[int]]) -> None:
-		self.bezier_0.update_x2(x1)
-		self.bezier_1.update_x0(x1)
+	def update_x1(self, x:float, y:float) -> None:
+		self.bezier_0.update_x2(x,y)
 
-	def update_x2(self, x2: list[list[int]]) -> None:
-		self.bezier_1.update_x2(x2)
+	def update_x2(self, x:float, y:float) -> None:
+		self.bezier_1.update_x2(x,y)
