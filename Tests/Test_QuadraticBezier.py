@@ -8,7 +8,7 @@ class TestQuadraticBezier(unittest.TestCase):
   def setUp(self):
     self.quadratic_bezier: QuadraticBezier = QuadraticBezier([[0], [0]], [[2], [1]], [[3], [-1]])
 
-  def test_compute_point(self):
+  def test_compute_point_single_point(self):
     expected_point = np.array([[2.04],[0.12]])
     point = self.quadratic_bezier.compute_point([0.6])
     self.check_points_dimensions(point, expected_point)
@@ -17,12 +17,20 @@ class TestQuadraticBezier(unittest.TestCase):
     point = self.quadratic_bezier.compute_point(0.6)
     self.check_points_dimensions(point, expected_point)
     self.check_points_equal(point, expected_point)
-
-  def test_compute_points(self):
+    
+  def test_compute_point_multiple_points(self):
     expected_points = np.array([[1.75, 2.04, 2.56],[0.25, 0.12, -0.32]])
     point = self.quadratic_bezier.compute_point([0.5, 0.6, 0.8])
     self.check_points_dimensions(point, expected_points)
     self.check_points_equal(point, expected_points)
+    
+  def test_compute_point_out_of_range(self):
+    self.assertRaises(IndexError, self.quadratic_bezier.compute_point, -0.2)
+    self.assertRaises(IndexError, self.quadratic_bezier.compute_point, 1.1)
+    self.assertRaises(IndexError, self.quadratic_bezier.compute_point, [-0.2])
+    self.assertRaises(IndexError, self.quadratic_bezier.compute_point, [1.1])
+    self.assertRaises(IndexError, self.quadratic_bezier.compute_point, [0.1, -0.2, 0.6])
+    self.assertRaises(IndexError, self.quadratic_bezier.compute_point, [0.2, 1.1, 0.3])
 
   def test_update_x0(self):
     new_point = np.array([[1.2],[0.6]])

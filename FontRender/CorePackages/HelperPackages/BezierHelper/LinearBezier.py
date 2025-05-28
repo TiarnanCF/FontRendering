@@ -16,6 +16,9 @@ class LinearBezier:
 		elif type(t) is list:
 			t = np.array([t], float)
 
+		if np.amax(t) > 1 or np.amin(t) < 0:
+			raise IndexError("t must be in the range [0,1]")
+
 		return np.add(self.x0, np.matmul(np.subtract(self.x2,self.x0),t))
 
 	def plot(self,t_count: float) -> None:

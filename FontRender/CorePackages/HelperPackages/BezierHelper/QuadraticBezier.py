@@ -13,6 +13,9 @@ class QuadraticBezier:
 		elif type(t) is list:
 			t = np.array([t], float)
 
+		if np.amax(t) > 1 or np.amin(t) < 0:
+			raise IndexError("t must be in the range [0,1]")
+
 		point_on_bezier_0 = self.bezier_0.compute_point(t)
 		point_on_bezier_1 = self.bezier_1.compute_point(t)
 		t_dimensions = t.shape
