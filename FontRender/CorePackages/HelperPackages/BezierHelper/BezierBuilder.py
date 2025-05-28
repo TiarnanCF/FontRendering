@@ -1,12 +1,6 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import numpy.typing as npt
 from .LinearBezier import LinearBezier
 from .QuadraticBezier import QuadraticBezier
 from .Point import Point
-
-plt.rcParams["figure.figsize"] = [7.50, 3.50]
-plt.rcParams["figure.autolayout"] = True
 
 class BezierBuilder:
 	def __init__(self, x0, x1, x2):
