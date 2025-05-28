@@ -24,6 +24,18 @@ class TestLinearBezier(unittest.TestCase):
     self.check_points_dimensions(point, expected_points)
     self.check_points_equal(point, expected_points)
 
+  def test_update_x0(self):
+    new_point = np.array([[1.2],[0.6]])
+    self.check_points_not_equal(self.linear_bezier.x0, new_point)
+    self.linear_bezier.update_x0(new_point)
+    self.check_points_equal(self.linear_bezier.x0, new_point)
+
+  def test_update_x2(self):
+    new_point = np.array([[1.2],[0.6]])
+    self.check_points_not_equal(self.linear_bezier.x2, new_point)
+    self.linear_bezier.update_x2(new_point)
+    self.check_points_equal(self.linear_bezier.x2, new_point)
+
   def check_points_dimensions(self, point, expected_point):
     m, n = np.shape(point)
     expected_m, expected_n = np.shape(expected_point)
@@ -35,6 +47,12 @@ class TestLinearBezier(unittest.TestCase):
     max_point_difference = np.amax(point_difference)
     mod_max_point_difference = abs(max_point_difference)
     self.assertTrue(mod_max_point_difference < TestLinearBezier.tolerance)
+
+  def check_points_not_equal(self, point, expected_point):
+    point_difference = point - expected_point
+    max_point_difference = np.amax(point_difference)
+    mod_max_point_difference = abs(max_point_difference)
+    self.assertFalse(mod_max_point_difference < TestLinearBezier.tolerance)
 
 if __name__ == '__main__':
   unittest.main()
