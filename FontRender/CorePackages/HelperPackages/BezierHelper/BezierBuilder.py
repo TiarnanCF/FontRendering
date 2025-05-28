@@ -12,7 +12,7 @@ class BezierBuilder:
 			raise IndexError("Out of range")
 
 		if len(beziers) == 0:
-			beziers.insert(0, LinearBezier(Point(0,0,True), Point(0,0,True)))
+			beziers.insert(0, LinearBezier(Point(0,0,True), Point(0 + delta_x,0 + delta_y,True)))
 			beziers[0].x0.update_next(beziers[0].x2)
 			return
 		
@@ -31,11 +31,11 @@ class BezierBuilder:
 		return beziers[insert_index]
 
 	def insert_quadratic_bezier(beziers: list[LinearBezier|QuadraticBezier], insert_index: int, delta_x = None, delta_y = None) -> QuadraticBezier:
-		linear_bezier = insert_linear_bezier(beziers, insert_index, delta_x, delta_y)
-		x1_x = (linear_bezier.x1.get_x() + linear_bezier.x2.get_x()) / 2
-		x1_y = (linear_bezier.x1.get_y() + linear_bezier.x2.get_y()) / 2
+		linear_bezier = BezierBuilder.insert_linear_bezier(beziers, insert_index, delta_x, delta_y)
+		x1_x = (linear_bezier.x0.get_x() + linear_bezier.x2.get_x()) / 2
+		x1_y = (linear_bezier.x0.get_y() + linear_bezier.x2.get_y()) / 2
 		x1 = Point(x1_x, x1_y, False)
-		return enhance_to_quadratic_bezier(linear_bezier, x1)
+		return BezierBuilder.enhance_to_quadratic_bezier(linear_bezier, x1)
 
 	def reduce_to_linear_bezier(quadratic_bezier: QuadraticBezier) -> LinearBezier:
 		quadratic_bezier.bezier_0.x0.update_next(quadratic_bezier.bezier_1.x2)
