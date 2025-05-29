@@ -40,3 +40,6 @@ class LinearBezier:
 
 	def get_x2(self) -> Point:
 		return self.x2
+
+	def return_points(self) -> list[Point]:
+		return [self.x0, self.x2]

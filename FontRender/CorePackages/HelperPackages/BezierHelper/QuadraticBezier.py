@@ -45,3 +45,6 @@ class QuadraticBezier:
 
 	def get_x2(self) -> Point:
 		return self.bezier_1.get_x2()
+
+	def return_points(self) -> list[Point]:
+		return self.bezier_0.return_points() + self.bezier_1.return_points()
