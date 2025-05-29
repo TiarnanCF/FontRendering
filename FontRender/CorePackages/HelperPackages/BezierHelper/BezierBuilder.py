@@ -3,10 +3,6 @@ from .QuadraticBezier import QuadraticBezier
 from .Point import Point
 
 class BezierBuilder:
-	def __init__(self, x0, x1, x2):
-		self.bezier_0 = LinearBezier(x0,x1)
-		self.bezier_1 = LinearBezier(x1,x2)
-
 	def insert_linear_bezier(beziers: list[LinearBezier|QuadraticBezier], insert_index: int, delta_x = None, delta_y = None) -> LinearBezier:
 		if insert_index < 0 or insert_index > len(beziers):
 			raise IndexError("Out of range")
