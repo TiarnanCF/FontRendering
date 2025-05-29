@@ -36,3 +36,12 @@ class QuadraticBezier:
 
 	def update_x2(self, x:float, y:float) -> None:
 		self.bezier_1.update_x2(x,y)
+
+	def get_x0(self) -> Point:
+		return self.bezier_0.get_x0()
+
+	def get_x1(self) -> Point:
+		return self.bezier_0.get_x2()
+
+	def get_x2(self) -> Point:
+		return self.bezier_1.get_x2()

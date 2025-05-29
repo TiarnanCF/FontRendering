@@ -34,3 +34,9 @@ class LinearBezier:
 	def update_x2(self, x: float, y: float) -> None:
 		self.x2.update_x(x)
 		self.x2.update_y(y)
+
+	def get_x0(self) -> Point:
+		return self.x0
+
+	def get_x2(self) -> Point:
+		return self.x2

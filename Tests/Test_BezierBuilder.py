@@ -19,15 +19,16 @@ class TestBezierBuilder(unittest.TestCase):
     pass
 
   def validate_beziers(self):
-    next_point = self.beziers[0].x0
+    next_point = self.beziers[0].get_x0()
     for bezier in self.beziers:
-      self.assertTrue(bezier.x0 is next_point)
+      self.assertTrue(bezier.get_x0() is next_point)
       next_point = next_point.get_next()
+
       if isinstance(bezier, QuadraticBezier):
-        self.assertTrue(bezier.x1 is next_point)
+        self.assertTrue(bezier.get_x1() is next_point)
         next_point = next_point.get_next()
 
-      self.assertTrue(bezier.x2 is next_point)
+      self.assertTrue(bezier.get_x2() is next_point)
 
     
 
