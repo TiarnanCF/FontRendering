@@ -51,7 +51,5 @@ class TestBezierBuilder(unittest.TestCase):
 
       self.assertTrue(bezier.get_x2() is next_point)
 
-    
-
 if __name__ == '__main__':
   unittest.main()
