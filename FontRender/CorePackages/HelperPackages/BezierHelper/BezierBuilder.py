@@ -64,6 +64,9 @@ class BezierBuilder:
 			x0.update_next(x2)
 			x2.update_x(x0.get_x() + delta_x)
 			x2.update_y(x0.get_y() + delta_y)
+		else:
+			x2 = beziers[insert_index].get_x0()
+			x0.update_next(x2)
 
 		beziers.insert(insert_index, LinearBezier(x0,x2))
 

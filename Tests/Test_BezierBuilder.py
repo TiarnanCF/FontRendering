@@ -39,6 +39,26 @@ class TestBezierBuilder(unittest.TestCase):
     self.beziers[0] = quadratic_bezier
     self.validate_beziers()
 
+  def test_insert_linear_bezier_exceptions(self):
+    self.assertRaises(IndexError, BezierBuilder.insert_linear_bezier, self.beziers, -1, 3, 1)
+    self.assertRaises(IndexError, BezierBuilder.insert_linear_bezier, self.beziers, 4, 3, 1)
+
+  def test_insert_linear_bezier_position_zero(self):
+    BezierBuilder.insert_linear_bezier(self.beziers,0,3,-4)
+    self.validate_beziers()
+
+  def test_insert_linear_bezier_middle_of_list(self):
+    BezierBuilder.insert_linear_bezier(self.beziers,1,3,-4)
+    self.validate_beziers()
+
+  def test_insert_quadratic_bezier_position_zero(self):
+    BezierBuilder.insert_quadratic_bezier(self.beziers,0,3,-4)
+    self.validate_beziers()
+
+  def test_insert_quadratic_bezier_middle_of_list(self):
+    BezierBuilder.insert_quadratic_bezier(self.beziers,1,3,-4)
+    self.validate_beziers()
+
   def validate_beziers(self):
     next_point = self.beziers[0].get_x0()
     for bezier in self.beziers:
