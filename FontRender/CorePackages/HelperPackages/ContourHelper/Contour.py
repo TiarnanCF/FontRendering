@@ -15,11 +15,9 @@ class Contour:
 		self.first_node = Point(current_x, current_y, current_on_curve)
 		self.is_closed_curve = is_closed_curve
 		self.is_relative_points = is_relative_points
-		self.is_bezier_curves_generated: bool = False
-		self.is_nodes_synced_with_bezier_curves: bool = True
 		
 		self.add_points(x,y,is_on_curve)
-		self.generate_bezier_curves()
+		self.beziers = BezierBuilder.construct_beziers_from_points(self.first_node, self.is_closed_curve)
 
 	def add_point(self, x: float, y:float, is_on_curve: bool) -> None:
 		current_x: float = self.first_node.get_x()
@@ -28,57 +26,10 @@ class Contour:
 		y_absolute: float = (y + self.is_relative_points * current_y)
 
 		self.first_node: Point = Point(x_absolute, y_absolute, is_on_curve, self.first_node)
-		self.is_bezier_curves_generated: bool = False
 
 	def add_points(self, x_list: list[float], y_list:list[float], is_on_curve_list: list[bool]) -> None:
 		for x,y, is_on_curve in zip(x_list, y_list, is_on_curve_list):
 			self.add_point(x,y,is_on_curve)
-
-	def generate_bezier_curves(self) -> None:
-		current_node = self.first_node
-		previous_node = None
-
-		self.beziers = []
-		while current_node.has_next():
-			if not(current_node.check_is_on_curve()):
-				previous_node = current_node
-				current_node = current_node.get_next()
-				continue
-
-			next_node = current_node.get_next()
-
-			if next_node.check_is_on_curve():
-				self.beziers.append(LinearBezier(current_node, next_node))
-				previous_node = current_node
-				current_node = current_node.get_next()
-				continue
-
-			if not(next_node.get_next().check_is_on_curve()):
-				raise Exception("Sorry, invalid data")
-
-			self.beziers.append(QuadraticBezier(current_node, next_node, next_node.get_next()))
-			previous_node = current_node
-			current_node = current_node.get_next()
-
-		if not(self.is_closed_curve):
-			self.is_bezier_curves_generated = True
-			return
-
-		if not(current_node.check_is_on_curve()) and not(self.first_node.check_is_on_curve()):
-			raise Exception("Sorry, invalid data")
-
-		if not(current_node.check_is_on_curve()):
-			self.beziers.append(QuadraticBezier(previous_node, current_node, self.first_node))
-			self.is_bezier_curves_generated = True
-			return
-		
-		if not(self.first_node.check_is_on_curve()):
-			self.beziers.append(QuadraticBezier(current_node, self.first_node, self.first_node.get_next()))
-			self.is_bezier_curves_generated = True
-			return
-
-		self.beziers.append(LinearBezier(current_node, self.first_node))
-		self.is_bezier_curves_generated = True
 
 	def modify_bezier(self, bezier_index: int, bezier_point_x0, bezier_point_x2, bezier_point_x1 = None) -> None:
 		self.beziers[bezier_index].update_x0(bezier_point_x0.get_x(), bezier_point_x0.get_y())

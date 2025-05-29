@@ -3,6 +3,49 @@ from .QuadraticBezier import QuadraticBezier
 from .Point import Point
 
 class BezierBuilder:
+	def construct_beziers_from_points(first_point: Point, is_closed_curve: bool) -> list[LinearBezier|QuadraticBezier]:
+		current_node = first_point
+		previous_node = None
+
+		beziers = []
+		while current_node.has_next():
+			if not(current_node.check_is_on_curve()):
+				previous_node = current_node
+				current_node = current_node.get_next()
+				continue
+
+			next_node = current_node.get_next()
+
+			if next_node.check_is_on_curve():
+				beziers.append(LinearBezier(current_node, next_node))
+				previous_node = current_node
+				current_node = current_node.get_next()
+				continue
+
+			if not(next_node.get_next().check_is_on_curve()):
+				raise Exception("Sorry, invalid data")
+
+			beziers.append(QuadraticBezier(current_node, next_node, next_node.get_next()))
+			previous_node = current_node
+			current_node = current_node.get_next()
+
+		if not(is_closed_curve):
+			return beziers
+
+		if not(current_node.check_is_on_curve()) and not(first_point.check_is_on_curve()):
+			raise Exception("Sorry, invalid data")
+
+		if not(current_node.check_is_on_curve()):
+			beziers.append(QuadraticBezier(previous_node, current_node, first_point))
+			return beziers
+		
+		if not(first_point.check_is_on_curve()):
+			beziers.append(QuadraticBezier(current_node, first_point, first_point.get_next()))
+			return beziers
+
+		beziers.append(LinearBezier(current_node, first_point))
+		return beziers
+
 	def insert_linear_bezier(beziers: list[LinearBezier|QuadraticBezier], insert_index: int, delta_x = None, delta_y = None) -> LinearBezier:
 		if insert_index < 0 or insert_index > len(beziers):
 			raise IndexError("Out of range")
