@@ -54,19 +54,19 @@ class BezierBuilder:
 			beziers.insert(0, LinearBezier(Point(0,0,True), Point(0 + delta_x,0 + delta_y,True)))
 			beziers[0].x0.update_next(beziers[0].get_x2())
 			return
-		
-		x2 = Point(0,0,True)
-		x0 = Point(0,0,True, x2)
 
-		if insert_index > 0:
+		if insert_index == len(beziers):
 			x0 = beziers[insert_index - 1].get_x2()
-			x2.update_next(x0.get_next())
+			x2 = Point(x0.get_x() + delta_x, x0.get_x() + delta_x, True)
 			x0.update_next(x2)
-			x2.update_x(x0.get_x() + delta_x)
-			x2.update_y(x0.get_y() + delta_y)
-		else:
+		elif insert_index == 0:
 			x2 = beziers[insert_index].get_x0()
+			x0 = Point(0,0,True, x2)
+		else:
+			x0 = beziers[insert_index - 1].get_x2()
+			x2 = Point(x0.get_x() + delta_x, x0.get_x() + delta_x, True, x0.get_next())
 			x0.update_next(x2)
+			beziers[insert_index].overwrite_x0(x2)
 
 		beziers.insert(insert_index, LinearBezier(x0,x2))
 

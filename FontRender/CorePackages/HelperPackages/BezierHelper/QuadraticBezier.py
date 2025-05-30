@@ -28,6 +28,9 @@ class QuadraticBezier:
 		coordinates = self.compute_point(t_values)
 		plt.plot(coordinates[0],coordinates[1])
 
+	def overwrite_x0(self, x0: Point) -> None:
+		self.bezier_0.overwrite_x0(x0)
+
 	def update_x0(self, x:float, y:float) -> None:
 		self.bezier_0.update_x0(x,y)
 

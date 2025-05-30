@@ -27,6 +27,9 @@ class LinearBezier:
 		coordinates = self.compute_point(t_values)
 		plt.plot(coordinates[0],coordinates[1])
 
+	def overwrite_x0(self, x0: Point) -> None:
+		self.x0 = x0
+
 	def update_x0(self, x: float, y: float) -> None:
 		self.x0.update_x(x)
 		self.x0.update_y(y)
