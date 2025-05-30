@@ -17,6 +17,9 @@ class TestBezierBuilder(unittest.TestCase):
 
     self.validate_beziers()
 
+  def test_construct_beziers_from_points(self):
+    pass
+
   def test_reduce_to_linear_bezier(self):
     quadratic_bezier = self.beziers[1]
     linear_bezier = BezierBuilder.reduce_to_linear_bezier(quadratic_bezier)
