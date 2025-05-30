@@ -31,6 +31,12 @@ class QuadraticBezier:
 	def overwrite_x0(self, x0: Point) -> None:
 		self.bezier_0.overwrite_x0(x0)
 
+	def overwrite_x1(self, x1: Point) -> None:
+		self.bezier_0.overwrite_x1(x2)
+
+	def overwrite_x2(self, x2: Point) -> None:
+		self.bezier_1.overwrite_x2(x2)
+
 	def update_x0(self, x:float, y:float) -> None:
 		self.bezier_0.update_x0(x,y)
 

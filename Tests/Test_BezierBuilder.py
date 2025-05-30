@@ -57,6 +57,10 @@ class TestBezierBuilder(unittest.TestCase):
 
   def test_insert_quadratic_bezier_middle_of_list(self):
     BezierBuilder.insert_quadratic_bezier(self.beziers,1,3,-4)
+    self.validate_beziers
+
+  def test_delete_bezier_middle_of_list(self):
+    BezierBuilder.delete_bezier(self.beziers,1)
     self.validate_beziers()
 
   def validate_beziers(self):

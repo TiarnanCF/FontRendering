@@ -81,6 +81,19 @@ class BezierBuilder:
 		beziers[insert_index] = quadratic_bezier
 		return quadratic_bezier
 
+	def delete_bezier(beziers: list[LinearBezier|QuadraticBezier], insert_index: int) -> None:
+		if insert_index < 0 or insert_index >= len(beziers):
+			raise IndexError("Out of range")
+
+		if insert_index == len(beziers) - 1:
+			beziers.pop(insert_index)
+			return
+
+		beziers[insert_index].get_x0().update_next(beziers[insert_index + 1].get_x1())
+		beziers[insert_index + 1].overwrite_x0(beziers[insert_index].get_x0())
+		beziers.pop(insert_index)
+		return
+
 	def reduce_to_linear_bezier(quadratic_bezier: QuadraticBezier) -> LinearBezier:
 		quadratic_bezier.bezier_0.x0.update_next(quadratic_bezier.bezier_1.x2)
 		return LinearBezier(quadratic_bezier.bezier_0.x0, quadratic_bezier.bezier_1.x2)
