@@ -63,6 +63,18 @@ class TestBezierBuilder(unittest.TestCase):
     BezierBuilder.delete_bezier(self.beziers,1)
     self.validate_beziers()
 
+  def test_delete_bezier_position_zero(self):
+    BezierBuilder.delete_bezier(self.beziers,0)
+    self.validate_beziers()
+
+  def test_delete_bezier_end_of_list(self):
+    BezierBuilder.delete_bezier(self.beziers,2)
+    self.validate_beziers()
+
+  def test_delete_bezier_exceptions(self):
+    self.assertRaises(IndexError, BezierBuilder.delete_bezier, self.beziers, -1)
+    self.assertRaises(IndexError, BezierBuilder.delete_bezier, self.beziers, 3)
+
   def validate_beziers(self):
     next_point = self.beziers[0].get_x0()
     for bezier in self.beziers:
