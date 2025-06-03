@@ -22,6 +22,12 @@ class Point(Node):
 		self.is_on_curve = is_on_curve
 		super().__init__(next_node)
 
+	def __sub__(self, other_point):
+		return Point(self.x - other_point.x, self.y - other_point.y, False)
+
+	def __eq__(self, other_point):
+		return abs(self.x - other_point.x) + abs(self.y - other_point.y) < Point.tolerance
+
 	def get_coordinates(self):
 		return np.array([[self.x], [self.y]])
 
@@ -42,9 +48,3 @@ class Point(Node):
 
 	def update_is_on_curve(self, is_on_curve):
 		self.is_on_curve = is_on_curve
-
-	def __sub__(self, other_point):
-		return Point(self.x - other_point.x, self.y - other_point.y, False)
-
-	def __eq__(self, other_point):
-		return abs(self.x - other_point.x) + abs(self.y - other_point.y) < Point.tolerance

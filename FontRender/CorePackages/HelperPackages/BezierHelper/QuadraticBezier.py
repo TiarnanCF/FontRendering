@@ -32,7 +32,8 @@ class QuadraticBezier:
 		self.bezier_0.overwrite_x0(x0)
 
 	def overwrite_x1(self, x1: Point) -> None:
-		self.bezier_0.overwrite_x1(x2)
+		self.bezier_0.overwrite_x2(x1)
+		self.bezier_1.overwrite_x0(x1)
 
 	def overwrite_x2(self, x2: Point) -> None:
 		self.bezier_1.overwrite_x2(x2)
@@ -56,4 +57,4 @@ class QuadraticBezier:
 		return self.bezier_1.get_x2()
 
 	def return_points(self) -> list[Point]:
-		return self.bezier_0.return_points() + self.bezier_1.return_points()
+		return self.bezier_0.return_points() + [self.bezier_1.get_x2()]
